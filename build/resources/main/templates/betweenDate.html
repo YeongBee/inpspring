@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <title>List</title>
+    <style>
+        body {
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .table {
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-warning {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<form action="/list" method="post">
+    <div>
+        <label for="startDate">시작 날짜:</label>
+        <input type="date" id="startDate" name="startDate" th:value="${startDate}" required />
+    </div>
+    <div>
+        <label for="endDate">종료 날짜:</label>
+        <input type="date" id="endDate" name="endDate" th:value="${endDate}" required />
+    </div>
+    <button type="submit">검색</button>
+</form>
+
+<hr class="my-4">
+<div class="row">
+    <div class="col" style="margin-bottom: 20px;">
+        <button class="btn btn-primary float-end" th:onclick="|location.href='@{/}'|" type="button">뒤로가기</button>
+    </div>
+</div>
+
+<div>
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>날짜</th>
+            <th>시간</th>
+            <th>온도</th>
+            <th>습도</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="find : ${bet}">
+            <td th:text="${find.sequence}"></td>
+            <td th:text="${find.date}"></td>
+            <td th:text="${#temporals.format(find.time, 'HH:mm:ss')}"></td>
+            <td th:text="${find.temperature}"></td>
+            <td th:text="${find.humidity}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

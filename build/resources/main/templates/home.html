@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+        }
+
+        .container {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+        }
+
+        #txt {
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .form-inline > div {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .form-container h3 {
+            color: #007bff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .form-label {
+            flex-basis: 20%;
+            font-weight: bold;
+        }
+
+        .form-value {
+            flex-grow: 1;
+        }
+
+    </style>
+    <script>
+        function startTime() {
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            var ampm = h >= 12 ? '오후' : '오전';
+            h = h % 12;
+            h = h ? h : 12;
+            m = checkTime(m);
+            s = checkTime(s);
+            document.getElementById('txt').innerHTML =
+                "현재시간 : " + ampm + " " + h + ":" + m + ":" + s + " ";
+            var t = setTimeout(startTime, 500);
+        }
+
+        function checkTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+    </script>
+</head>
+<body onload="startTime()">
+
+<div id="txt"></div>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>측정</h2>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end" th:onclick="|location.href='@{/list}'|" type="button">모두보기</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-container">
+            <form th:object="${weatherData}" method="get">
+                <div class="form-row">
+                    <span class="form-label">날짜 :</span>
+                    <span class="form-value" th:text="${weatherData.date}"></span>
+                </div>
+                <div class="form-row">
+                    <span class="form-label">시간 :</span>
+                    <span class="form-value" th:text="${#temporals.format(weatherData.time, 'HH:mm:ss')}"></span>
+                </div>
+                <div class="form-row">
+                    <span class="form-label">온도 :</span>
+
+                    <span class="form-value" th:text="${weatherData.temperature} + ' ℃'"></span>
+                </div>
+                <div class="form-row">
+                    <span class="form-label">습도 :</span>
+                    <span class="form-value" th:text="${weatherData.humidity} + ' %'"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
